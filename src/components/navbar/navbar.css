@@ -1,0 +1,65 @@
+nav{
+
+width: 100%;
+padding: 10px;
+
+display: flex;
+align-items: center;
+justify-content: space-between;
+z-index: 100;
+background-color: #f1f1f1;
+
+
+
+
+}
+
+.nav_title1 {
+
+
+    display: flex;
+    align-items: center;
+ 
+    
+}
+.nav_title1 img {
+
+width:60px;
+height: 60px;
+
+
+}
+
+nav input {
+
+width:65%;
+padding: 15px;
+border-radius: 10px;
+border:solid 1px rgb(205, 204, 204);
+outline: none;
+
+
+}
+
+nav input:focus{
+
+    border: solid 1px rgb(0, 247, 255);
+    box-shadow: 0 0 5px rgba(0, 0, 255, 0.5); 
+    transition: border-color 0.3s ease;
+}
+
+.nav_title2{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap:20px
+    
+}
+
+
+
+
+
+
