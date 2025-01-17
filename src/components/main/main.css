@@ -3,7 +3,7 @@ main{
 
     width:calc(100% - 250px );
     height: 90vh;
-    background-color:rgb(0, 255, 221);
+  
     background-image: url("../../assets/mandarin.jpg");
     background-size: cover;
 padding:40px
