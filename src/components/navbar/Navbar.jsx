@@ -1,6 +1,6 @@
 import React from "react";
 import "./navbar.css";
-import logo from "../../assets/Logo.jpg";
+import logo from "../../assets/logo.svg";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import AutorenewIcon from "@mui/icons-material/Autorenew";

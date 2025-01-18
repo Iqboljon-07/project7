@@ -7,7 +7,7 @@ display: flex;
 align-items: center;
 justify-content: space-between;
 z-index: 100;
-background-color: #f1f1f1;
+background-color:whitesmoke;
 
 
 
@@ -24,8 +24,8 @@ background-color: #f1f1f1;
 }
 .nav_title1 img {
 
-width:60px;
-height: 60px;
+width:50px;
+height: 50px;
 
 
 }

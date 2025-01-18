@@ -23,7 +23,11 @@ function Modal() {
           <Button style={{ width: "100px" }} variant="contained">
             Create
           </Button>
-          <Button style={{ width: "100px" }} variant="outlined">
+          <Button
+            onClick={() => setPopal(false)}
+            style={{ width: "100px" }}
+            variant="outlined"
+          >
             Cancel
           </Button>
         </Stack>
