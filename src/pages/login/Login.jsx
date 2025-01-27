@@ -19,7 +19,7 @@ const validationSchema = Yup.object({
   password: Yup.string()
     .min(6, "Kamida 6 ta son qatnashsin")
     .max(8, "Ko'pi bilan 8 ta bo'lsin")
-    .matches(/^(?=.*[A-Za-z])/, "Parol kamida bitta Harf qatnashsin")
+    // .matches(/^(?=.*[A-Za-z])/, "Parol kamida bitta Harf qatnashsin")
     .required("Maydon bo'sh bo'lmasin"),
 });
 
