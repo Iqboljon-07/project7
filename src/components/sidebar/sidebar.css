@@ -1,50 +1,100 @@
-.sidebar{
+.sidebar {
 
 
-    width:250px;
-    height: 90vh;
-background-color: #f9f9f9;
+    width: 250px;
+    height: auto;
+    overflow: hidden;
+    background-color: #f9f9f9;
     display: grid;
-    grid-template-columns:100%;
+    grid-template-columns: 100%;
     grid-auto-rows: 50px;
-    gap:20px;
-    padding:40px 10px;
-   justify-content: center;
-   
-
-    
-    }
-    
-    .sidebar_item{
+    gap: 20px;
+    padding: 40px 5px;
+    justify-content: center;
+    margin-top: 70px;
+    overflow-y: auto;
 
 
-background-color: rgb(225, 220, 220);
-display: flex;
-align-items: center;
-gap:10px;
-padding:0 10px
 
-    }
+}
 
-    
-    .sidebar svg{
-
-color:blue;
-
-    }
-    .sidebar_item:hover{
+.sidebar_item {
 
 
-        cursor: pointer;
-      padding:0 30px;
-      background-color: rgb(171, 171, 171);
-        
-    }
-    .accordion:hover{
+    background-color: rgb(225, 220, 220);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
 
 
-        cursor: pointer;
-      padding:0 30px;
-      background-color: rgb(171, 171, 171);
-        
-    }
+
+
+
+
+
+}
+
+
+.sidebar svg {
+
+    color: blue;
+
+}
+
+.sidebar_item:hover {
+
+
+    cursor: pointer;
+    padding: 0 30px;
+    background-color: rgb(171, 171, 171);
+
+}
+
+.typografy_item:hover {
+
+
+    cursor: pointer;
+    padding: 0 10px;
+    background-color: rgb(171, 171, 171);
+
+}
+
+.container_typografy {
+
+    display: grid;
+
+    gap: 20px;
+    grid-template-columns: 100%;
+
+
+
+}
+
+.typografy {
+
+    display: grid;
+    grid-template-columns: 100%;
+    grid-auto-rows: 40px;
+}
+
+.typografy_item {
+
+    background-color: rgb(241, 238, 238);
+
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+
+
+}
+
+.container_typografy1 {
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+
+}

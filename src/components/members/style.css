@@ -1,0 +1,47 @@
+.members {
+
+  width: 100%;
+  height: 100vh;
+  background-color: #0009;
+  position: fixed;
+  top: 0;
+
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+}
+
+.members .members_item {
+
+  width: 50%;
+
+  height: 60%;
+  background-color: white;
+
+  border-radius: 10px;
+  transform: translate(-50%, -50%);
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding: 6px 15px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-position: top;
+  background-size: cover;
+
+
+}
+
+.members input:focus {
+
+
+  border-color: #28a745;
+  box-shadow: 0 0 5px #008CBA;
+
+}
