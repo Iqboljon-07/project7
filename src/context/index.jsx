@@ -21,8 +21,10 @@ function Provider({ children }) {
   const [members, setMembers] = React.useState([]);
   const [text, setText] = useState("");
   const [isBought, setIsBought] = useState(false);
-  const [membermodal, setMemberModal] = React.useState(false);
+  const [membermodal, setMemberModal] = React.useState();
+
   let str = "salom";
+
   return (
     <>
       <Context.Provider

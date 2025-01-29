@@ -9,13 +9,13 @@ import Stack from "@mui/material/Stack";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Yourprofile from "../yourprofile/Yourprofile";
-import Frontend from "../frontend/Frontend";
+
 import { Navigate, useNavigate } from "react-router-dom";
 function Main() {
   const [data, setData] = React.useState([]);
   const { setPopal } = useStateValue();
   const { show, setShow } = useStateValue();
-  const { fronet, setFronet } = useStateValue();
+
   const navigate = useNavigate();
 
   // useEffect(() => {
@@ -42,11 +42,7 @@ function Main() {
 
   return (
     <>
-      <main onClick={() => setPopal(false)}>
-        {show && <Yourprofile />}
-
-        {fronet && <Frontend />}
-      </main>
+      <main onClick={() => setPopal(false)}>{show && <Yourprofile />}</main>
     </>
   );
 }

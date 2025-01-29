@@ -52,7 +52,7 @@ function Login() {
           toast.success("Signed in successfully");
           navigate("/");
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("user", JSON.stringify(response.data.user));
+          ///localStorage.setItem("user", JSON.stringify(response.data.user));
         }
       } catch (error) {
         toast.error("Invalid credentials");

@@ -19,23 +19,23 @@ const Members = () => {
     e.preventDefault();
     const memberId = e.target.value;
     console.log(user);
-    try {
-      let response = await axios.post(
-        "https://nt-shopping-list.onrender.com/api/:groupId/members",
-        {
-          memberId,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": localStorage.getItem("token"),
-          },
-        }
-      );
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   let response = await axios.post(
+    //     "https://nt-shopping-list.onrender.com/api/:groupId/members",
+    //     {
+    //       memberId,
+    //     },
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         "x-auth-token": localStorage.getItem("token"),
+    //       },
+    //     }
+    //   );
+    //   console.log(response);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   return (

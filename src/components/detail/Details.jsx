@@ -21,8 +21,12 @@ import MenuItem from "@mui/material/MenuItem";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 function Details() {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const dot = function () {
+    setAnchorEl(null);
+  };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -57,12 +61,15 @@ function Details() {
   const [pending, setisPending] = React.useState("");
   const { membermodal, setMemberModal } = useStateValue();
   const { groups, setGroups } = useStateValue();
+  const [me, setMe] = React.useState(null);
 
-  const navigate = useNavigate();
+  console.log(detail);
 
   console.log(groupId);
-  //yokida funksiyani ichiga id berib axios groupId o'rniga id qoysa ham ishlaydi
-  const DeleteGroup = async (id) => {
+
+  //delete Group
+  const DeleteGroup = async () => {
+    //yokida funksiyani ichiga id berib axios groupId o'rniga id qoysa ham ishlaydi
     try {
       let response = await axios.delete(
         `https://nt-shopping-list.onrender.com/api/groups/${groupId}`,
@@ -75,6 +82,9 @@ function Details() {
       console.log(response);
       if (response.status === 200) {
         toast.success(response.data.message);
+        setGroups(groups.filter((item) => item._id !== groupId));
+        navigate("/");
+        setShow(true);
 
         // setGroups((prevGroups) =>
         //   prevGroups.filter((group) => group.id !== groupId)
@@ -87,6 +97,10 @@ function Details() {
   };
 
   useEffect(() => {
+    if (location.reload) {
+      //   //shunga narsa ancha vaqt oldi
+      setShow(false);
+    }
     (async function () {
       try {
         let response = await axios.get(
@@ -98,7 +112,19 @@ function Details() {
             },
           }
         );
+        let resme = await axios.get(
+          `https://nt-shopping-list.onrender.com/api/auth`,
+          {
+            headers: {
+              "x-auth-token": `${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
         let result = response.data?.find((val) => val._id === groupId);
+        ///////////////////////////////////////
+        setMe(resme.data); //delet qilishniki
+        //////////////////////////////////////
         setDetail(result);
         setItems(result.items);
         setMembers(result.members);
@@ -106,8 +132,9 @@ function Details() {
         console.log(err);
       }
     })();
-  }, [groupId]);
-  console.log(detail);
+  }, [groupId, isBought]);
+  console.log("detail", detail);
+  console.log("me", me);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -172,19 +199,57 @@ function Details() {
   //let result = detail?.find((val) => val._id === groupId); //tashqarida qo'llasak ham bo'ladi
   // console.log(result);
 
-  const toggleIsBought = async function (id) {
-    setIsBought((prevIsBought) => !prevIsBought);
-    let updatedItems = items?.map((item) =>
-      item._id === id ? { ...item, isBought: !item.isBought } : item
-    );
-    setItems(updatedItems);
-    console.log(updatedItems);
-
-    if (isBought) {
-      toast.success("Sotib oldingiz");
-    } else {
-      toast.error("Buyurtmangiz qaytarildi");
+  const Deletemember = async function (memberId) {
+    try {
+      let response = await axios.delete(
+        `https://nt-shopping-list.onrender.com/api/groups/${groupId}/members/${memberId}`,
+        {
+          headers: {
+            "x-auth-token": `${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setMembers(members.filter((member) => member._id !== memberId)); //Eslab qol
+      }
+    } catch (err) {
+      console.log(err);
     }
+  };
+
+  const toggleIsBought = async function (itemId) {
+    let res = await axios.post(
+      `https://nt-shopping-list.onrender.com/api/items/${itemId}/mark-as-bought`,
+      {},
+      {
+        headers: {
+          "x-auth-token": `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    setIsBought(!isBought);
+    console.log(res);
+    if (res.status == 200) {
+      toast.success(res.data.message);
+    }
+  };
+  const toggleNotIsBought = async function (itemId) {
+    let res = await axios.delete(
+      `https://nt-shopping-list.onrender.com/api/items/${itemId}/mark-as-bought`,
+
+      {
+        headers: {
+          "x-auth-token": `${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log(res);
+    if (res.status == 200) {
+      toast.success(res.data.message);
+    }
+    setIsBought(!isBought);
   };
 
   return (
@@ -227,13 +292,15 @@ function Details() {
                 id="basic-menu"
                 anchorEl={anchorEl}
                 open={open}
-                // onClose={handleClose}
+                onClose={dot}
                 MenuListProps={{
                   "aria-labelledby": "basic-button",
                 }}
               >
+                <MenuItem onClick={dot}>...</MenuItem>
                 <MenuItem onClick={handleClose}>Add member</MenuItem>
-                <MenuItem onClick={() => DeleteGroup(detail._id)}>
+                <MenuItem onClick={DeleteGroup}>
+                  {/* <MenuItem onClick={() => DeleteGroup(detail._id)}> */}
                   Delete Group
                 </MenuItem>
               </Menu>
@@ -302,9 +369,9 @@ function Details() {
                             fontSize: "10px",
                           }}
                         >
-                          Bought By{" "}
-                          {val?.boughtBy?.name?.toUpperCase()?.charAt(0) +
-                            val?.boughtBy?.name?.slice(1)}{" "}
+                          Bought By
+                          {val?.owner?.name?.toUpperCase()?.charAt(0) +
+                            val?.owner?.name.slice(1)}
                           {val?.createdAt}
                         </p>
                       </div>
@@ -326,23 +393,35 @@ function Details() {
                   </div>
 
                   <div className="icons">
-                    <div onClick={() => toggleIsBought(val._id)}>
+                    <div
+                      onClick={() => {
+                        if (val.isBought) {
+                          return toggleNotIsBought(val._id);
+                        } else {
+                          return toggleIsBought(val._id);
+                        }
+                      }}
+                    >
                       {val.isBought ? (
                         <DoneAllIcon style={{ backgroundColor: "blue" }} />
                       ) : (
                         <ShoppingCartIcon />
                       )}
                     </div>
-                    <div onClick={() => deletItem(val._id)}>
-                      {pending === val._id ? (
-                        <FaHourglass
-                          style={{ backgroundColor: "aqua" }}
-                          className={`${pending ? "hourglass" : ""} `}
-                        />
-                      ) : (
-                        <DeleteIcon style={{ backgroundColor: "red" }} />
-                      )}
-                    </div>
+                    {me._id === val?.owner?._id ? (
+                      <div onClick={() => deletItem(val._id)}>
+                        {pending === val._id ? (
+                          <FaHourglass
+                            style={{ backgroundColor: "aqua" }}
+                            className={`${pending ? "hourglass" : ""} `}
+                          />
+                        ) : (
+                          <DeleteIcon style={{ backgroundColor: "red" }} />
+                        )}
+                      </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               ))}
@@ -383,7 +462,10 @@ function Details() {
                       </div>
                     </div>
                   </div>
-                  <DeleteIcon style={{ color: "red" }} />
+                  <DeleteIcon
+                    onClick={() => Deletemember(item._id)}
+                    style={{ color: "red" }}
+                  />
                 </div>
               ))}
             </div>

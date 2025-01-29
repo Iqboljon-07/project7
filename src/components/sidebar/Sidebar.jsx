@@ -57,7 +57,7 @@ function Sidebar() {
   const { popal, setPopal } = useStateValue();
   const [expanded, setExpanded] = React.useState("panel1");
   const { show, setShow } = useStateValue();
-  const { fronet, setFronet } = useStateValue();
+
   const { groups, setGroups } = useStateValue();
   const { creatgroup, setCreatGroup } = useStateValue();
 

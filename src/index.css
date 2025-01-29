@@ -8,8 +8,9 @@ body {
   max-width: 1540px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
-  height: auto;
-  /* overflow-y: auto; */
+  height: 110vh;
+  overflow: hidden;
+
 }
 
 .global {
