@@ -52,7 +52,7 @@ function Registr() {
           },
         }
       );
-      console.log(response);
+      //console.log(response);
       if (response.status === 201) {
         toast.success("Signed up successfully");
         navigate("/");

@@ -23,34 +23,15 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 function Details() {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+
   const open = Boolean(anchorEl);
-  const dot = function () {
-    setAnchorEl(null);
-  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
     setMemberModal(true);
-
-    // try {
-    //   let response = await axios.post(
-    //     "https://nt-shopping-list.onrender.com/api/members",
-    //     {
-    //       // memberId,
-    //     },
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         "x-auth-token": localStorage.getItem("token"),
-    //       },
-    //     }
-    //   );
-    //   console.log(response);
-    // } catch (err) {
-    //   console.log(err);
-    // }
   };
   const { show, setShow } = useStateValue();
 
@@ -63,9 +44,9 @@ function Details() {
   const { groups, setGroups } = useStateValue();
   const [me, setMe] = React.useState(null);
 
-  console.log(detail);
+  // console.log(detail);
 
-  console.log(groupId);
+  //console.log(groupId);
 
   //delete Group
   const DeleteGroup = async () => {
@@ -79,12 +60,13 @@ function Details() {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         toast.success(response.data.message);
         setGroups(groups.filter((item) => item._id !== groupId));
         navigate("/");
         setShow(true);
+        setAnchorEl(null);
 
         // setGroups((prevGroups) =>
         //   prevGroups.filter((group) => group.id !== groupId)
@@ -96,6 +78,32 @@ function Details() {
     }
   };
 
+  //leave group
+  const LeaveGroup = async () => {
+    try {
+      let res = await axios.post(
+        `https://nt-shopping-list.onrender.com/api/groups/${groupId}/leave`,
+        {},
+        {
+          headers: {
+            "x-auth-token": `${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      // console.log(res);
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        setGroups(groups.filter((group) => group._id !== groupId));
+        navigate("/");
+        setShow(true);
+        setAnchorEl(null);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //detailsga  groupsdan tutvolish
   useEffect(() => {
     if (location.reload) {
       //   //shunga narsa ancha vaqt oldi
@@ -133,9 +141,10 @@ function Details() {
       }
     })();
   }, [groupId, isBought]);
-  console.log("detail", detail);
-  console.log("me", me);
+  // console.log("detail", detail);
+  // console.log("me", me);
 
+  //items ga create qilish
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -158,7 +167,7 @@ function Details() {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
       if (response.status == 201) {
         setisPending("");
         toast.success("Ma'lumotingiz qo'shildi");
@@ -171,6 +180,7 @@ function Details() {
     }
   };
 
+  //items ni delete qilish
   const deletItem = async (id) => {
     try {
       setisPending(id);
@@ -183,7 +193,7 @@ function Details() {
           },
         }
       );
-      console.log(response);
+      //console.log(response);
       if (response.status == 200) {
         setisPending(false);
         setItems(items.filter((item) => item._id !== id));
@@ -198,7 +208,7 @@ function Details() {
 
   //let result = detail?.find((val) => val._id === groupId); //tashqarida qo'llasak ham bo'ladi
   // console.log(result);
-
+  //memberni delet qilish
   const Deletemember = async function (memberId) {
     try {
       let response = await axios.delete(
@@ -209,15 +219,19 @@ function Details() {
           },
         }
       );
-      console.log(response);
+      //console.log(response);
       if (response.status === 200) {
+        setisPending(false);
         toast.success(response.data.message);
         setMembers(members.filter((member) => member._id !== memberId)); //Eslab qol
       }
     } catch (err) {
       console.log(err);
+      setisPending(false);
     }
   };
+
+  // sotib olish
 
   const toggleIsBought = async function (itemId) {
     let res = await axios.post(
@@ -230,11 +244,12 @@ function Details() {
       }
     );
     setIsBought(!isBought);
-    console.log(res);
+    //console.log(res);
     if (res.status == 200) {
       toast.success(res.data.message);
     }
   };
+  //sotib olganni otmen qilish
   const toggleNotIsBought = async function (itemId) {
     let res = await axios.delete(
       `https://nt-shopping-list.onrender.com/api/items/${itemId}/mark-as-bought`,
@@ -260,7 +275,7 @@ function Details() {
           <div style={{ display: "flex", gap: "10px" }}>
             <button>
               Owner:
-              <span className="span" style={{ paddingLeft: "3px" }}>
+              <span className="span">
                 {detail?.owner?.name.toUpperCase().charAt(0)}
               </span>
               {detail?.owner?.name.toUpperCase().charAt(0) +
@@ -292,17 +307,21 @@ function Details() {
                 id="basic-menu"
                 anchorEl={anchorEl}
                 open={open}
-                onClose={dot}
+                onClose={() => setAnchorEl(false)}
                 MenuListProps={{
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={dot}>...</MenuItem>
                 <MenuItem onClick={handleClose}>Add member</MenuItem>
-                <MenuItem onClick={DeleteGroup}>
-                  {/* <MenuItem onClick={() => DeleteGroup(detail._id)}> */}
-                  Delete Group
-                </MenuItem>
+
+                {me?._id === detail?.owner?._id ? (
+                  <MenuItem onClick={DeleteGroup}>
+                    {/* <MenuItem onClick={() => DeleteGroup(detail._id)}> ishlaydi*/}
+                    Delete Group
+                  </MenuItem>
+                ) : (
+                  <MenuItem onClick={LeaveGroup}>Leave Group</MenuItem>
+                )}
               </Menu>
             </div>
           </div>
@@ -327,6 +346,7 @@ function Details() {
                     border: "1px solid #ccc",
 
                     borderRadius: "5px",
+                    textIndent: "5px",
                   }}
                   type="text"
                   placeholder="Title"
@@ -367,6 +387,7 @@ function Details() {
                             borderRadius: "5px",
                             padding: "5px 10px",
                             fontSize: "10px",
+                            textWrap: "wrap",
                           }}
                         >
                           Bought By
@@ -408,7 +429,7 @@ function Details() {
                         <ShoppingCartIcon />
                       )}
                     </div>
-                    {me._id === val?.owner?._id ? (
+                    {me?._id === val?.owner?._id ? (
                       <div onClick={() => deletItem(val._id)}>
                         {pending === val._id ? (
                           <FaHourglass
@@ -455,17 +476,30 @@ function Details() {
                         }}
                       >
                         <p>
-                          {item.name.toUpperCase().charAt(0) +
-                            item?.name.slice(1)}
+                          {item?.name?.toUpperCase().charAt(0) +
+                            item?.name?.slice(1)}
                         </p>
                         <p style={{ color: "grey" }}>{item?.username} </p>
                       </div>
                     </div>
                   </div>
-                  <DeleteIcon
-                    onClick={() => Deletemember(item._id)}
-                    style={{ color: "red" }}
-                  />
+                  {detail?.owner?._id === me?._id && item._id !== me._id ? (
+                    <div
+                      onClick={() => Deletemember(item._id)}
+                      style={{ color: "red" }}
+                    >
+                      {pending ? (
+                        <FaHourglass
+                          style={{ backgroundColor: "aqua" }}
+                          className={`${pending ? "hourglass" : ""} `}
+                        />
+                      ) : (
+                        <DeleteIcon />
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               ))}
             </div>

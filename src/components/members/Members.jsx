@@ -6,36 +6,66 @@ import { Style } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
+import { toast } from "react-toastify";
 const Members = () => {
   const { membermodal, setMemberModal } = useStateValue();
+  const { members, setMembers } = useStateValue();
   const { groupId } = useParams();
-  console.log(groupId);
+  //console.log(groupId);
   const navigate = useNavigate();
-  const { show, setShow, detail, setDetail } = useStateValue();
-  const [user, setUser] = React.useState("");
-  console.log(user);
 
-  const onChange = async (e) => {
-    e.preventDefault();
-    const memberId = e.target.value;
-    console.log(user);
-    // try {
-    //   let response = await axios.post(
-    //     "https://nt-shopping-list.onrender.com/api/:groupId/members",
-    //     {
-    //       memberId,
-    //     },
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         "x-auth-token": localStorage.getItem("token"),
-    //       },
-    //     }
-    //   );
-    //   console.log(response);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  const {
+    show,
+    setShow,
+    detail,
+    setDetail,
+    memberSearches,
+    setMemberSearches,
+  } = useStateValue();
+
+  const onChange = async (member) => {
+    //console.log(member);
+    try {
+      let response = await axios.get(
+        `https://nt-shopping-list.onrender.com/api/users/search?q=${member}`,
+        {},
+        {
+          headers: {
+            "x-auth-token": localStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        setMemberSearches(response.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const Addmember = async (val) => {
+    try {
+      const response = await axios.post(
+        `https://nt-shopping-list.onrender.com/api/groups/${groupId}/members`,
+        { memberId: val._id },
+        {
+          headers: {
+            "x-auth-token": `${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      //console.log(response);
+      if (response.status === 200) {
+        setisPending("");
+        toast.success(response.data.message);
+        setMemberModal(false);
+        setMembers((prev) => [...prev, val]);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Error");
+    }
   };
 
   return (
@@ -61,7 +91,7 @@ const Members = () => {
             />
           </div>
           <input
-            onChange={onChange}
+            onChange={(e) => onChange(e.target.value)}
             style={{
               width: "100%",
               padding: "8px",
@@ -71,6 +101,15 @@ const Members = () => {
             type="text"
             placeholder="Search user"
           />
+
+          <ul>
+            {memberSearches.map((val) => (
+              <li onClick={() => Addmember(val)} key={val._id}>
+                {/* id o'rniga val o'zini bervorib tepadada id tutvolamiz */}
+                {val.name}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       ;

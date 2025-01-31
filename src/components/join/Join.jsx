@@ -5,41 +5,48 @@ import Button from "@mui/material/Button";
 import "./style.css";
 import { useStateValue } from "../../context";
 import { toast } from "react-toastify";
-
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+// FORM USULDA
 function Join() {
-  const { setJoin, join } = useStateValue();
-  const [arr, setArr] = useState([]);
-  const onSubmit = (e) => {
+  const navigate = useNavigate();
+  const { searchId } = useParams();
+  console.log(searchId);
+
+  const { search, setSearch } = useStateValue();
+  const { groups, setGroups } = useStateValue();
+  const onSubmit = async (e) => {
     e.preventDefault();
+
     const password = e.target[0].value;
     console.log(password);
 
-    (async () => {
-      try {
-        let response = await axios.post(
-          "https://nt-shopping-list.onrender.com/api/groups/:groupId/join",
-          {
-            password,
+    try {
+      let response = await axios.post(
+        `https://nt-shopping-list.onrender.com/api/groups/${searchId}/join`,
+
+        {
+          password,
+        },
+
+        {
+          headers: {
+            "x-auth-token": `${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
           },
-
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        console.log(response);
-        if (response.status === 200) {
-          toast.success("Signed in successfully");
-
-          localStorage.setItem("token", response.data.token);
         }
-      } catch (error) {
-        toast.error("Invalid credentials");
-        console.error(error);
+      );
+      console.log(response);
+      if (response.status === 200) {
+        toast.success("Signed in successfully");
+
+        navigate("/");
+        setSearch("");
       }
-    })();
+    } catch (error) {
+      toast.error("Invalid password");
+      console.error(error);
+    }
   };
 
   return (
@@ -48,7 +55,7 @@ function Join() {
         <h5>Group name and password</h5>
         <HighlightOffIcon
           style={{ fontSize: "36px" }}
-          onClick={() => setJoin(false)}
+          onClick={() => navigate("/")}
         />
       </div>
 

@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
-import Profile from "./pages/profile/Profile.jsx";
+
 import Provider from "./context/index.jsx";
 import { ToastContainer } from "react-toastify";
 

@@ -2,13 +2,13 @@ import React from "react";
 import "./style.css";
 import { useStateValue } from "../../context";
 import Join from "../join/Join";
+import { useNavigate } from "react-router-dom";
 function Search() {
   const { datas, setdatas } = useStateValue();
   const { setSearch, search } = useStateValue();
-  const { join, setJoin } = useStateValue();
 
-  console.log(datas);
-
+  //console.log(datas);
+  const navigate = useNavigate();
   return (
     <div className="search">
       <div className="search_item">
@@ -16,7 +16,7 @@ function Search() {
 
         <div className="search_item_1">
           {datas?.map((val, inx) => (
-            <div key={val._id } className="search_title">
+            <div key={val._id} className="search_title">
               <div className="search_item2">
                 <div>
                   <h2>{val.name} </h2>
@@ -38,8 +38,11 @@ function Search() {
                 </button>
               </div>
               <button
+                className="btn3"
                 onClick={() => {
-                  setJoin(!join);
+                  {
+                    navigate(`search/${val._id}`);
+                  }
                 }}
                 style={{ backgroundColor: "green", width: "50px" }}
               >
@@ -49,8 +52,6 @@ function Search() {
           ))}
         </div>
       </div>
-
-      {join && <Join />}
     </div>
   );
 }

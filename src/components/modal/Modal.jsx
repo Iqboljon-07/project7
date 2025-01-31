@@ -20,7 +20,7 @@ function Modal() {
       name: name.current.value,
       password: password.current.value,
     };
-    console.log(user);
+    //console.log(user);
 
     try {
       let response = await axios.post(

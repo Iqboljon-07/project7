@@ -45,6 +45,14 @@
 
 }
 
+.detail_title button {
+
+  border: none;
+  border-radius: 10px;
+  padding: 5px;
+
+}
+
 .detail_title2 {
 
 
@@ -98,11 +106,23 @@
 
   border: none;
   font-size: 10px;
-  padding-left: 4px;
+  border-radius: 5px;
 
 
 
 }
+
+.detail_title2 form button:hover {
+
+
+  background-color: green;
+  scale: 1.1;
+
+
+
+
+}
+
 
 .icons {
 
@@ -135,7 +155,7 @@
   color: #fff;
   margin: 5px;
   border: none;
-  text-align: center;
+
 
 
 
@@ -151,6 +171,7 @@
   display: flex;
 
   align-items: center;
+  justify-content: center;
 
 }
 

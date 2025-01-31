@@ -70,8 +70,7 @@
     gap: 20px
 }
 
-.login_title2 form input,
-button {
+.login_title2 form input {
     width: 100%;
     padding: 12px 0;
     border-radius: 5px;
@@ -83,6 +82,19 @@ button {
 
 }
 
+.login_title2 button {
+
+    width: 100%;
+    padding: 12px 0;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    width: 100%;
+    background-color: #f0f8ff;
+    text-indent: 10px;
+
+
+}
 
 .login_title2 input:focus {
 

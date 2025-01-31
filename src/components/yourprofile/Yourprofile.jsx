@@ -23,10 +23,10 @@ function Yourprofile() {
             },
           }
         );
-        console.log(response);
+        //console.log(response);
         let data = await response.data;
         setData(data);
-        console.log(data);
+        //console.log(data);
       } catch (err) {
         console.log(err);
       }

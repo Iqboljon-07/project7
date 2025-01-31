@@ -31,7 +31,7 @@ function Login() {
   }
 
   const onSubmit = (values) => {
-    console.log(values);
+    // console.log(values);
     (async () => {
       try {
         let response = await axios.post(
@@ -47,7 +47,7 @@ function Login() {
             },
           }
         );
-        console.log(response);
+        //console.log(response);
         if (response.status === 200) {
           toast.success("Signed in successfully");
           navigate("/");

@@ -15,6 +15,7 @@ function Main() {
   const [data, setData] = React.useState([]);
   const { setPopal } = useStateValue();
   const { show, setShow } = useStateValue();
+  const { search, setSearch } = useStateValue();
 
   const navigate = useNavigate();
 
@@ -42,7 +43,13 @@ function Main() {
 
   return (
     <>
-      <main onClick={() => setPopal(false)}>{show && <Yourprofile />}</main>
+      <main
+        onClick={() => {
+          setPopal(false), setSearch("");
+        }}
+      >
+        {show && <Yourprofile />}
+      </main>
     </>
   );
 }

@@ -1,10 +1,6 @@
-import React, {
-  createContext,
-  createElement,
-  useContext,
-  useState,
-} from "react";
-import Main from "../components/main/Main";
+import React, { createContext, useContext, useState } from "react";
+let str2 = "Salom";
+export { str2 };
 const Context = createContext();
 function Provider({ children }) {
   const [popal, setPopal] = React.useState(false);
@@ -22,6 +18,8 @@ function Provider({ children }) {
   const [text, setText] = useState("");
   const [isBought, setIsBought] = useState(false);
   const [membermodal, setMemberModal] = React.useState();
+  const [memberSearches, setMemberSearches] = React.useState([]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   let str = "salom";
 
@@ -59,6 +57,8 @@ function Provider({ children }) {
           setIsBought,
           membermodal,
           setMemberModal,
+          memberSearches,
+          setMemberSearches,
         }}
       >
         {children}

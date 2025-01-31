@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useStateValue } from "../../context";
@@ -21,9 +21,11 @@ function Navbar() {
   const [age, setAge] = React.useState("");
   const { search, setSearch } = useStateValue();
   const { datas, setDatas } = useStateValue();
-  const { join, setJoin } = useStateValue();
+  const { groups, setGroups } = useStateValue(); //sanagich
 
   const navigate = useNavigate();
+  const { groupId } = useParams();
+  //console.log(groupId);
 
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -35,19 +37,26 @@ function Navbar() {
 
   const onChange = async (e) => {
     setSearch(e.target.value);
-    let response = await axios.get(
-      `https://nt-shopping-list.onrender.com/api/groups/search`,
-      {
-        headers: {
-          "x-auth-token": `${localStorage.getItem("token")}`,
-        },
-        params: {
-          q: search,
-        },
-      }
-    );
+    try {
+      let response = await axios.get(
+        `https://nt-shopping-list.onrender.com/api/groups/search`,
+        {
+          headers: {
+            "x-auth-token": `${localStorage.getItem("token")}`,
+          },
+          params: {
+            q: search,
+          },
+        }
+      );
 
-    setDatas(response.data);
+      if (response.status === 200) {
+        setDatas(response.data);
+        //console.log(response);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -71,7 +80,7 @@ function Navbar() {
 
         <div className="nav_title2">
           <AutorenewIcon onClick={() => navigate("/")} />
-          <Badge badgeContent={"9+ "} color="error">
+          <Badge badgeContent={groups.length} color="error">
             <NotificationsIcon />
           </Badge>
 

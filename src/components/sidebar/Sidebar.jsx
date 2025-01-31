@@ -15,7 +15,7 @@ import Modal from "../modal/Modal";
 
 import { useStateValue } from "../../context";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -61,6 +61,9 @@ function Sidebar() {
   const { groups, setGroups } = useStateValue();
   const { creatgroup, setCreatGroup } = useStateValue();
 
+  const { searchId } = useParams();
+  //console.log(searchId);
+
   const navigate = useNavigate();
 
   useEffect(
@@ -75,16 +78,16 @@ function Sidebar() {
               },
             }
           );
-          console.log(response);
+          //console.log(response);
           setGroups(response.data);
         } catch (error) {
           console.log(error);
         }
       })();
     },
-    [creatgroup] //bu ham bolish mumkin
+    [creatgroup, searchId] //bu ham bolish mumkin
   );
-  console.log(groups);
+  // console.log(groups);
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };

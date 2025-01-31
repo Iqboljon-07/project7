@@ -63,17 +63,36 @@
     justify-content: space-between;
     gap: 10px;
     padding: 10px;
+    align-items: center;
 
 }
 
-.search_title button {
+.search_item2 .btn2 {
 
-    width: 120px;
-    height: 20px;
+    width: 140px;
+    height: 30px;
     background-color: rgb(29, 203, 145);
     text-align: center;
     line-height: 0px;
     color: #ffffff;
+    border: none;
+    border-radius: 5px;
+}
+
+.btn3 {
+
+
+    padding: 7px 10px;
+    border: none;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+.search_title .btn3:hover {
+
+    background-color: blue;
+    scale: 1.2;
+
 }
 
 .search_item2 {
