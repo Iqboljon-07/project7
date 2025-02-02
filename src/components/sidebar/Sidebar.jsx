@@ -132,6 +132,7 @@ function Sidebar() {
         <AccordionDetails>
           <div className="container_typografy1">
             <Typography
+              className="typografy"
               onClick={() => {
                 setPopal(!popal);
               }}

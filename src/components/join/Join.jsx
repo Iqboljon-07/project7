@@ -15,6 +15,7 @@ function Join() {
 
   const { search, setSearch } = useStateValue();
   const { groups, setGroups } = useStateValue();
+  const { show, setShow } = useStateValue();
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -42,6 +43,7 @@ function Join() {
 
         navigate("/");
         setSearch("");
+        setShow(true);
       }
     } catch (error) {
       toast.error("Invalid password");

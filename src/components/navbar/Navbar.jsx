@@ -22,6 +22,7 @@ function Navbar() {
   const { search, setSearch } = useStateValue();
   const { datas, setDatas } = useStateValue();
   const { groups, setGroups } = useStateValue(); //sanagich
+  const { setShow } = useStateValue();
 
   const navigate = useNavigate();
   const { groupId } = useParams();
@@ -65,7 +66,11 @@ function Navbar() {
         <div className="nav_title1">
           <img src={logo} alt="" />
           <Stack spacing={2} direction="row">
-            <Button style={{ borderRadius: "20px" }} variant="contained">
+            <Button
+              onClick={() => (location.href = "https://i18n-beige.vercel.app/")}
+              style={{ borderRadius: "20px" }}
+              variant="contained"
+            >
               + New
             </Button>
           </Stack>
@@ -79,7 +84,12 @@ function Navbar() {
         />
 
         <div className="nav_title2">
-          <AutorenewIcon onClick={() => navigate("/")} />
+          <AutorenewIcon
+            onClick={() => {
+              navigate("/");
+              setShow(true);
+            }}
+          />
           <Badge badgeContent={groups.length} color="error">
             <NotificationsIcon />
           </Badge>

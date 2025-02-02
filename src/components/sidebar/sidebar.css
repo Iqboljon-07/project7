@@ -55,7 +55,7 @@
 
 
     cursor: pointer;
-    padding: 0 10px;
+    padding: 0 25px;
     background-color: rgb(171, 171, 171);
 
 }
@@ -76,6 +76,13 @@
     display: grid;
     grid-template-columns: 100%;
     grid-auto-rows: 40px;
+}
+
+.typografy:hover {
+
+
+    cursor: pointer;
+
 }
 
 .typografy_item {

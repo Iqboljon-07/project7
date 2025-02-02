@@ -1,7 +1,8 @@
 .item {
 
   width: 100%;
-  background-color: #fff9;
+  background-color: white;
+  opacity: .9;
 
   height: 250px;
   border-radius: 30px;
@@ -80,4 +81,16 @@
   gap: 10px;
 
   justify-content: center;
+}
+
+.title2 button:first-child:hover {
+  background-color: green;
+  scale: 1.05;
+
+}
+
+.title2 button:last-child:hover {
+
+  scale: 1.05;
+
 }

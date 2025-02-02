@@ -8,10 +8,37 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useStateValue } from "../../context";
 import axios from "axios";
+import { toast } from "react-toastify";
 function Yourprofile() {
   const [data, setData] = useState([]);
   const { setPopal } = useStateValue();
+  async function DeleteAccount() {
+    try {
+      let res = await axios.delete(
+        `https://nt-shopping-list.onrender.com/api/users`,
+        {
+          headers: {
+            "x-auth-token": ` ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      //console.log(res);
+      let result = confirm("Profilni Udelet Account qilasizmi");
+      if (result) {
+        if (res.status === 200) {
+          toast.success(res.data.message);
+          localStorage.removeItem("token");
 
+          window.location.href = "/";
+          console.log(res);
+        }
+      } else {
+        toast.error("Profilni Udelet Account qilamadiz");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
   useEffect(() => {
     (async () => {
       try {
@@ -23,7 +50,7 @@ function Yourprofile() {
             },
           }
         );
-        //console.log(response);
+        console.log(response);
         let data = await response.data;
         setData(data);
         //console.log(data);
@@ -32,6 +59,16 @@ function Yourprofile() {
       }
     })();
   }, []);
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(data?.username)
+      .then(() => {
+        toast.success(`Username nusxalandi ${data?.username}`);
+      })
+      .catch((err) => {
+        console.error("Nusxalashda xatolik:", err);
+      });
+  };
 
   // console.log(localStorage.getItem("user"));
   // console.log(data);
@@ -72,13 +109,26 @@ function Yourprofile() {
         </div>
         <div className="title2">
           <Button
-            style={{ width: "200px", height: "40px" }}
+            onClick={copyToClipboard}
+            style={{
+              width: "200px",
+              height: "40px",
+              display: "flex",
+              gap: "10px",
+            }}
             variant="contained"
           >
             <ContentCopyIcon /> Copy UserName
           </Button>
           <Button
-            style={{ width: "200px", background: "red", height: "40px" }}
+            onClick={DeleteAccount}
+            style={{
+              width: "200px",
+              background: "red",
+              height: "40px",
+              display: "flex",
+              gap: "10px",
+            }}
             variant="contained"
           >
             <DeleteIcon />

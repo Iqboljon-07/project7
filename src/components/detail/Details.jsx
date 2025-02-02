@@ -21,6 +21,7 @@ import MenuItem from "@mui/material/MenuItem";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 function Details() {
+  //usestate orqali
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
 

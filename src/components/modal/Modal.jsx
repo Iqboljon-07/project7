@@ -9,6 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Modal() {
+  // useref
   const { setPopal, popal } = useStateValue();
   const { creatgroup, setCreatGroup } = useStateValue();
   const name = useRef(null);
